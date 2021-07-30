@@ -2,7 +2,8 @@
 
 /*****************************************************************
 *
-*	global arrays, for using with handler or printer funcs
+*	global arrays, for using with handler funcs
+	(and printer ones in turn)
 *
 *****************************************************************/
 
@@ -24,7 +25,7 @@ void argument(char c, char *str); // take an argument and give result
 
 /*************************************************************************
 *
-*	functions which print the results of the handling funcs
+*	functions which call handling funcs and print their result
 *
 **************************************************************************/
 
