@@ -1,15 +1,71 @@
 #include <stdio.h>
 #include "subnt.h"
 
-// data
-unsigned int ip[5], mask[4]; // IP and Subnet Mask
-unsigned int nid[4], bid[4]; // broadcast and network IDs
-unsigned int ipf[4], ipl[4]; // first and last IPs
-unsigned int hostn; // number of hosts
-char input[19];
+// main func
+int main(int argc, char **argv)
+{
+	// if args then get them
+	if (argc > 1)
+	{
+		switch (argv[1][1])
+		{
+		case 'a':
+			if (argc > 2) // if two args, take it as ip
+			{
+				argument(argv[1][2], argv[2]);
+			}
+			else // else go normal
+			{
+				argument(argv[1][2], input);
+			}
+			return 0; // close
+			break;
+		case 'i':
+			break;
+		case 'h':
+		default:
+			printf("# interactive mode \n");
+			printf("\tsubnt       \t # \n");
+			printf("\tsubnt -i    \t # \n");
+			printf("\n");
+			printf("# argument/piped mode \n");
+			printf("\tsubnt -a  ip\t # return full info\n");
+			printf("\t      -am ip\t # return subnetmask\n");
+			printf("\t      -ai ip\t # return network/broadcast id\n");
+			printf("\t      -ar ip\t # return first/last ip\n");
+			printf("\t      -ah ip\t # return host count\n");
+			printf("\n");
+			printf("# help screen \n");
+			printf("\tsubnt       \t # \n");
+			printf("\tsubnt -h    \t # \n");
+			return 0; // close
+			break;
+		}
+	}
+
+	// if no args or 'i' arg
+	unsigned short int on = 2;
+	while (on)
+	{
+		if (on==2)
+		{
+			// display menu
+			printf("Select an option:\n");
+			printf("\t1. Get Subnet Mask\n");
+			printf("\t2. Get Network and Broadcast ID\n");
+			printf("\t3. Get First and Last IP\n");
+			printf("\t4. Get Number of hosts\n");
+			printf("\t5. Get Full Information\n");
+			printf("\t0. Get Out\n");
+			printf("\n");
+		}
+		on = interact(); // go to mode and get return val
+	}
+	return 0; // close
+}
 
 // helper funcs
-void printa(unsigned int ar[4])
+void nprinta(unsigned int ar[4])
 {
 	unsigned short int i = 0;
 	for (i=0; i<4; i++) {
@@ -37,61 +93,40 @@ void getipinput(char ar[19])
 	printf("\n");
 }
 
-// main func
-int main(int argc)
+// primary funcs
+void argument(char c, char *str)
 {
-	if (argc == 1) // if no arguments go interactive
+	if (nstrl(str)) // if given a string use it as ip
 	{
-		printf("Run with any argument for piping mode!\n\n");
-
-		unsigned short int on = 2; // loop runner
-		while (on) // main loop
-		{
-			// display menu
-			if (on == 2) // if returned 2 then display menu
-			{
-				printf("Select an option:\n");
-				printf("  1. Get Subnet Mask\n");
-				printf("  2. Get Network and Broadcast ID\n");
-				printf("  3. Get First and Last IP\n");
-				printf("  4. Get Number of hosts\n");
-				printf("  5. Get Full Information\n");
-				printf("  0. Get Out\n");
-				printf("\n");
-			}
-
-			on = interact();
-		}
+		nsatoi(str, ip);
 	}
-	else // else with any option accept piped input
+	else // else just ask for input or take it from pipe
 	{
-		printf("Run with no arguments for interactive mode!\n");
-
 		getipinput(input);
 		nsatoi(input, ip);
-		printf("IP> %s \n\n", input);
+	}
 
-		printf("  Subnet Mask: ");
-		hostn = iptomask(ip, mask);
-		printa(mask);
-		printf("  Hosts: ");
-		printf("%d\n", hostn);
-		printf("  Network ID: ");
-		toid_n(ip, mask, nid);
-		printa(nid);
-		printf("  Broadcast ID: ");
-		toid_b(ip, mask, bid);
-		printa(bid);
-		printf("  First IP: ");
-		toip_first(nid, ipf);
-		printa(ipf);
-		printf("  Last IP: ");
-		toip_last(bid, ipl);
-		printa(ipl);
+	// switch on type of output asked for
+	switch (c)
+	{
+	case 'm': // mask
+		nprint_mask();
+		break;
+	case 'i': // n/b id
+		nprint_id();
+		break;
+	case 'r': // f/l ip
+		nprint_range();
+		break;
+	case 'h': // h count
+		nprint_hostn();
+		break;
+	default: // full
+		nprint_full();
+		break;
 	}
 }
 
-// other funcs
 unsigned short int interact()
 {
 	printf("NU> ");
@@ -106,82 +141,41 @@ unsigned short int interact()
 		getipinput(input);
 		nsatoi(input, ip);
 
-		printf("  Subnet Mask: ");
-		iptomask(ip, mask);
-		printa(mask);
+		nprint_mask();
 		break;
 	case '2': // Network/Broadcast ID
 		printf("IP> ");
 		getipinput(input);
 		nsatoi(input, ip);
-		iptomask(ip, mask);
 
-		printf("  Network ID: ");
-		toid_n(ip, mask, nid);
-		printa(nid);
-
-		printf("  Broadcast ID: ");
-		toid_b(ip, mask, bid);
-		printa(bid);
+		nprint_id();
 		break;
 	case '3': // First/Last IP
 		printf("IP> ");
 		getipinput(input);
 		nsatoi(input, ip);
-		iptomask(ip, mask);
-		toid_n(ip, mask, nid);
-		toid_b(ip, mask, bid);
 
-		printf("  First IP: ");
-		toip_first(nid, ipf);
-		printa(ipf);
-
-		printf("  Last IP: ");
-		toip_last(bid, ipl);
-		printa(ipl);
+		nprint_range();
 		break;
 	case '4': // number of hosts available
 		printf("IP> ");
 		getipinput(input);
 		nsatoi(input, ip);
 
-		printf("  Hosts: ");
-		hostn = iptomask(ip, mask);
-		printf("%d \n", hostn);
+		nprint_hostn();
 		break;
 	case '5': // Full
 		printf("IP> ");
 		getipinput(input);
 		nsatoi(input, ip);
 
-		printf("  Subnet Mask: ");
-		hostn = iptomask(ip, mask);
-		printa(mask);
-
-		printf("  Hosts: ");
-		printf("%d\n", hostn);
-
-		printf("  Network ID: ");
-		toid_n(ip, mask, nid);
-		printa(nid);
-
-		printf("  Broadcast ID: ");
-		toid_b(ip, mask, bid);
-		printa(bid);
-
-		printf("  First IP: ");
-		toip_first(nid, ipf);
-		printa(ipf);
-
-		printf("  Last IP: ");
-		toip_last(bid, ipl);
-		printa(ipl);
+		nprint_full();
 		break;
 	case '0':
 		return 0;
 		break;
 	default:
-		printf("Error: incorrect option!\n\n");
+		printf("Incorrect option!\n\n");
 		return 2; // continue loop but display menu
 		break;
 	}
@@ -197,6 +191,76 @@ unsigned short int interact()
 	return 1; // continue loop
 }
 
+// do funcs
+void nprint_mask()
+{
+	printf("\tSubnet Mask: ");
+	iptomask(ip, mask);
+	nprinta(mask);
+}
+
+void nprint_id()
+{
+	iptomask(ip, mask);
+
+	printf("\tNetwork ID: ");
+	toid_n(ip, mask, nid);
+	nprinta(nid);
+
+	printf("\tBroadcast ID: ");
+	toid_b(ip, mask, bid);
+	nprinta(bid);
+}
+
+void nprint_range()
+{
+	iptomask(ip, mask);
+	toid_n(ip, mask, nid);
+	toid_b(ip, mask, bid);
+
+	printf("\tFirst IP: ");
+	toip_first(nid, ipf);
+	nprinta(ipf);
+
+	printf("\tLast IP: ");
+	toip_last(bid, ipl);
+	nprinta(ipl);
+}
+
+void nprint_hostn()
+{
+	printf("\tHosts: ");
+	hostn = iptomask(ip, mask);
+	printf("%d \n", hostn);
+}
+
+void nprint_full()
+{
+	printf("\tSubnet Mask: ");
+	hostn = iptomask(ip, mask);
+	nprinta(mask);
+
+	printf("\tHosts: ");
+	printf("%d\n", hostn);
+
+	printf("\tNetwork ID: ");
+	toid_n(ip, mask, nid);
+	nprinta(nid);
+
+	printf("\tBroadcast ID: ");
+	toid_b(ip, mask, bid);
+	nprinta(bid);
+
+	printf("\tFirst IP: ");
+	toip_first(nid, ipf);
+	nprinta(ipf);
+
+	printf("\tLast IP: ");
+	toip_last(bid, ipl);
+	nprinta(ipl);
+}
+
+// other funcs
 void toip_first(unsigned int nid[4], unsigned int ipf[4])
 {
 	ipf[0] = nid[0];
@@ -462,4 +526,14 @@ unsigned int npower(unsigned int b, unsigned int p)
 		i++;
 	}
 	return ret;
+}
+
+unsigned int nstrl(char str[])
+{
+	short int i = 0;
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return i;
 }
