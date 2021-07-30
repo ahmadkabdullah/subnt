@@ -6,12 +6,12 @@ BINPATH = /usr/local/bin/$(TARGET)
 default:
 	gcc -o $(TARGET) *.c
 
+clean:
+	rm $(TARGET)
+
 install:
-	gcc -o $(TARGET) *.c
 	cp $(TARGET) $(BINPATH)
 
 uninstall:
 	rm $(BINPATH)
 
-clean:
-	rm $(TARGET)
