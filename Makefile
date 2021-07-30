@@ -4,10 +4,10 @@ TARGET = subnt
 BINPATH = /usr/local/bin/
 
 default:
-	gcc -o $(TARGET) $(TARGET).c
+	gcc -o $(TARGET) *.c
 
 install:
-	gcc -o $(TARGET) $(TARGET).c
+	gcc -o $(TARGET) *.c
 	cp $(TARGET) $(BINPATH)
 
 uninstall:
