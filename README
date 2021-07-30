@@ -1,2 +1,3 @@
-# SubNT
-Basic tool calculate subnet related fields from an ip (with or without cidr).
+Basic tool for calculating subnet related fields from an ip (with or without cidr) such as: Subnet Mask, Network ID, Broadcast ID, Number of Hosts, IP Range).
+
+Use makefile to install and uninstall.
