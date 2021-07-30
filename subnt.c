@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	}
 }
 
-void margument(char o, char *str)
+void margument(const char o, const char *str)
 {
 	if (nstrl(str)) // if given a string use it as ip
 	{
@@ -109,7 +109,7 @@ void minteract()
 	}
 }
 
-void mopts(char o)
+void mopts(const char o)
 {
 	switch (o)
 	{
@@ -159,7 +159,7 @@ void mopts(char o)
 
 // printer funcs
 
-void nprinta(unsigned int ar[4])
+void nprinta(const unsigned int ar[4])
 {
 	unsigned short int i = 0;
 	for (i=0; i<4; i++) {
@@ -219,7 +219,7 @@ void nprint_full()
 
 // handler funcs
 
-void toip_first(unsigned int nid[4], unsigned int ipf[4])
+void toip_first(const unsigned int nid[4], unsigned int ipf[4])
 {
 	ipf[0] = nid[0];
 	ipf[1] = nid[1];
@@ -227,7 +227,7 @@ void toip_first(unsigned int nid[4], unsigned int ipf[4])
 	ipf[3] = nid[3]+1;
 }
 
-void toip_last(unsigned int bid[4], unsigned int ipl[4])
+void toip_last(const unsigned int bid[4], unsigned int ipl[4])
 {
 	ipl[0] = bid[0];
 	ipl[1] = bid[1];
@@ -235,7 +235,7 @@ void toip_last(unsigned int bid[4], unsigned int ipl[4])
 	ipl[3] = bid[3]-1;
 }
 
-void toid_n(unsigned int ip[], unsigned int mask[4], unsigned int nid[4])
+void toid_n(const unsigned int ip[], const unsigned int mask[4], unsigned int nid[4])
 {
 	short int i = 0;
 	while (mask[i] == 255) // find subnet octet and assign previous octets
@@ -263,7 +263,7 @@ void toid_n(unsigned int ip[], unsigned int mask[4], unsigned int nid[4])
 	}
 }
 
-void toid_b(unsigned int ip[], unsigned int mask[4], unsigned int bid[4])
+void toid_b(const unsigned int ip[], const unsigned int mask[4], unsigned int bid[4])
 {
 	short int i = 0;
 	while (mask[i] == 255) // find subnet octet and assign previous octets
@@ -291,7 +291,7 @@ void toid_b(unsigned int ip[], unsigned int mask[4], unsigned int bid[4])
 	}
 }
 
-unsigned int tomask(unsigned int ip[5], unsigned int mask[4])
+unsigned int tomask(const unsigned int ip[5], unsigned int mask[4])
 {
 	short int cidr = ip[4];
 	short int ioct = 0;
@@ -391,7 +391,7 @@ char ncharinput()
 	return o;
 }
 
-void nsatoi(char s[], unsigned int ia[5])
+void nsatoi(const char s[], unsigned int ia[5])
 {
 	short int i, j, k; i=j=k=0; // index vars
 	short int sel, sela, selb; // selection vars
@@ -474,7 +474,7 @@ void nsatoi(char s[], unsigned int ia[5])
 	}
 }
 
-unsigned int natoi(char s[4])
+unsigned int natoi(const char s[4])
 {
 	int i = 0;
 	int calc = 0;
@@ -508,7 +508,7 @@ unsigned int natoi(char s[4])
 	return ret;
 }
 
-unsigned int npower(unsigned int b, unsigned int p)
+unsigned int npower(const unsigned int b, const unsigned int p)
 {
 	short int i = 0;
 	unsigned int ret = 1;
@@ -521,7 +521,7 @@ unsigned int npower(unsigned int b, unsigned int p)
 	return ret;
 }
 
-unsigned int nstrl(char str[])
+unsigned int nstrl(const char str[])
 {
 	short int i = 0;
 	while (str[i] != '\0')

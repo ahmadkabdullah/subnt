@@ -24,8 +24,8 @@ char input[19]; // input storing
 **************************************************************************************/
 
 void minteract(); // run a loop and take input from user continuously
-void margument(char c, char *str); // take an argument and give result
-void mopts(char o); // handle options passed by two funcs
+void margument(const char c, const char *str); // take an argument and give result
+void mopts(const char o); // handle options passed by two funcs
 
 /*************************************************************************
 *
@@ -41,7 +41,7 @@ void nprint_hostn(); // print out the host count
 void nprint_full(); // print out all the previous in one
 
 // base printer
-void nprinta(unsigned int ar[4]); // print arrays
+void nprinta(const unsigned int ar[4]); // print arrays
 
 /***************************************************************************
 *
@@ -50,18 +50,18 @@ void nprinta(unsigned int ar[4]); // print arrays
 ***************************************************************************/
 
 // processing of data
-unsigned int tomask(unsigned int ip[5], unsigned int mask[4]); // generate mask from ip CIDR or not, also returns host count
-void toid_b(unsigned int ip[5], unsigned int mask[4], unsigned int bid[4]); // find broadcast ID
-void toid_n(unsigned int ip[5], unsigned int mask[4], unsigned int nid[4]); // find network ID
-void toip_first(unsigned int nid[4], unsigned int ipf[4]); // calculate first ip
-void toip_last(unsigned int bid[4], unsigned int ipl[4]); // calculate last ip
+unsigned int tomask(const unsigned int ip[5], unsigned int mask[4]); // generate mask from ip CIDR or not, also returns host count
+void toid_b(const unsigned int ip[5], const unsigned int mask[4], unsigned int bid[4]); // find broadcast ID
+void toid_n(const unsigned int ip[5], const unsigned int mask[4], unsigned int nid[4]); // find network ID
+void toip_first(const unsigned int nid[4], unsigned int ipf[4]); // calculate first ip
+void toip_last(const unsigned int bid[4], unsigned int ipl[4]); // calculate last ip
 
 // waste funcs since they're in the std lib
 void nstrinput(char ar[19]); // get input as str until ip length
 char ncharinput(); // get one char from input without ruining everything
-void nsatoi(char string[], unsigned int iparray[]); // change a ip (string) to an ip (int-array)
-unsigned int natoi(char string[]); // change a char array (string) to int
-unsigned int npower(unsigned int base, unsigned int pow); // calculate power
-unsigned int nstrl(char string[]); // get length of string
+void nsatoi(const char string[], unsigned int iparray[]); // change a ip (string) to an ip (int-array)
+unsigned int natoi(const char string[]); // change a char array (string) to int
+unsigned int npower(const unsigned int base, const unsigned int pow); // calculate power
+unsigned int nstrl(const char string[]); // get length of string
 
 #endif
