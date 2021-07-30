@@ -1,5 +1,7 @@
 // subnt header file
 
+#ifndef _SUBNT_H
+
 /*****************************************************************
 *
 *	global arrays, for using with handler funcs
@@ -61,3 +63,5 @@ void nsatoi(char string[], unsigned int iparray[]); // change a ip (string) to a
 unsigned int natoi(char string[]); // change a char array (string) to int
 unsigned int npower(unsigned int base, unsigned int pow); // calculate power
 unsigned int nstrl(char string[]); // get length of string
+
+#endif
