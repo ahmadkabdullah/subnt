@@ -1,7 +1,7 @@
 CFLAGS = -Wall
 
 TARGET = subnt
-BINPATH = /usr/local/bin/subnt
+BINPATH = /usr/local/bin/$(TARGET)
 
 default:
 	gcc -o $(TARGET) *.c
