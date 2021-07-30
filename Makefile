@@ -1,7 +1,7 @@
 CFLAGS = -Wall
 
 TARGET = subnt
-BINPATH = /usr/local/bin/
+BINPATH = /usr/local/bin/subnt
 
 default:
 	gcc -o $(TARGET) *.c
@@ -11,7 +11,7 @@ install:
 	cp $(TARGET) $(BINPATH)
 
 uninstall:
-	rm $(BINPATH)$(TARGET)
+	rm $(BINPATH)
 
 clean:
 	rm $(TARGET)
