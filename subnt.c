@@ -25,18 +25,18 @@ int main(int argc, char **argv)
 			break;
 		case 'h':
 		default:
-			printf("# interactive mode \n");
+			printf("Interactive Mode \n");
 			printf("\tsubnt       \t # \n");
 			printf("\tsubnt -i    \t # \n");
 			printf("\n");
-			printf("# argument/piped mode \n");
+			printf("Argument/Piped Mode \n");
 			printf("\tsubnt -a  ip\t # return full info\n");
 			printf("\t      -am ip\t # return subnetmask\n");
 			printf("\t      -ai ip\t # return network/broadcast id\n");
 			printf("\t      -ar ip\t # return first/last ip\n");
 			printf("\t      -ah ip\t # return host count\n");
 			printf("\n");
-			printf("# help screen \n");
+			printf("Help Screen \n");
 			printf("\tsubnt -h    \t # \n");
 			return 0; // close
 			break;
@@ -154,7 +154,7 @@ unsigned short int interact()
 		return 0;
 		break;
 	default:
-		printf("Incorrect option!\n");
+		printf("Incorrect option!\n\n");
 		return 2; // continue loop but display menu
 		break;
 	}

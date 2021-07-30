@@ -75,7 +75,7 @@ void toid_b(unsigned int ip[], unsigned int mask[4], unsigned int bid[4])
 	}
 }
 
-unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
+unsigned int tomask(unsigned int ip[5], unsigned int mask[4])
 {
 	short int cidr = ip[4];
 	short int ioct = 0;

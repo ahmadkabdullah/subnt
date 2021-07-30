@@ -50,7 +50,7 @@ void nstrinput(char ar[19]); // get input as str until ip length
 char ncharinput(); // get one char from input without ruining everything
 
 // processing of data
-unsigned int iptomask(unsigned int ip[5], unsigned int mask[4]); // generate mask from ip CIDR or not, also returns host count
+unsigned int tomask(unsigned int ip[5], unsigned int mask[4]); // generate mask from ip CIDR or not, also returns host count
 void toid_b(unsigned int ip[5], unsigned int mask[4], unsigned int bid[4]); // find broadcast ID
 void toid_n(unsigned int ip[5], unsigned int mask[4], unsigned int nid[4]); // find network ID
 void toip_first(unsigned int nid[4], unsigned int ipf[4]); // calculate first ip

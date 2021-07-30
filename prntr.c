@@ -15,13 +15,13 @@ void nprinta(unsigned int ar[4])
 void nprint_mask()
 {
 	printf("\tSubnet Mask: ");
-	iptomask(ip, mask);
+	tomask(ip, mask);
 	nprinta(mask);
 }
 
 void nprint_id()
 {
-	iptomask(ip, mask);
+	tomask(ip, mask);
 
 	printf("\tNetwork ID: ");
 	toid_n(ip, mask, nid);
@@ -34,7 +34,7 @@ void nprint_id()
 
 void nprint_range()
 {
-	iptomask(ip, mask);
+	tomask(ip, mask);
 	toid_n(ip, mask, nid);
 	toid_b(ip, mask, bid);
 
@@ -50,14 +50,14 @@ void nprint_range()
 void nprint_hostn()
 {
 	printf("\tHosts: ");
-	hostn = iptomask(ip, mask);
+	hostn = tomask(ip, mask);
 	printf("%d\n", hostn);
 }
 
 void nprint_full()
 {
 	printf("\tSubnet Mask: ");
-	hostn = iptomask(ip, mask);
+	hostn = tomask(ip, mask);
 	nprinta(mask);
 
 	printf("\tHosts: ");
