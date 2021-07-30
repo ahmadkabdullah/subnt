@@ -27,7 +27,7 @@ void mopts(char o); // handle options passed by two funcs
 
 /*************************************************************************
 *
-*	functions which call handling funcs and print their result
+*	functions which print data made by handling funcs
 *
 **************************************************************************/
 

@@ -19,6 +19,7 @@ int main(int argc, char **argv)
 			{
 				margument(argv[1][2], input); // call with pipe as ip
 			}
+			return 0;
 			break;
 		case 'i':
 			printf("Select an option:\n");
@@ -29,21 +30,28 @@ int main(int argc, char **argv)
 			printf("\tf. Get Full Information\n");
 			printf("\t0. Get Out\n");
 			minteract(); // call interactive loop
+			return 0;
 			break;
 		case 'h':
 		default:
-			printf("subnt -i    \t # interactive mode\n");
-			printf("\n");
-			printf("subnt -af ip\t # return full info\n");
-			printf("      -am ip\t # return subnetmask\n");
-			printf("      -ai ip\t # return network/broadcast id\n");
-			printf("      -ar ip\t # return first/last ip\n");
-			printf("      -ah ip\t # return host count\n");
-			printf("\n");
-			printf("subnt -h  \t # help screen\n");
 			break;
 		}
 	}
+	// else if there are none or opt 'h'
+	else
+	{
+		printf("subnt -i    \t # interactive mode\n");
+		printf("\n");
+		printf("subnt -af ip\t # return full info\n");
+		printf("      -am ip\t # return subnetmask\n");
+		printf("      -ai ip\t # return network/broadcast id\n");
+		printf("      -ar ip\t # return first/last ip\n");
+		printf("      -ah ip\t # return host count\n");
+		printf("\n");
+		printf("subnt -h  \t # help screen\n");
+		return 0;
+	}
+
 //	// reset arrays
 //	ip[0] = ip[1] = ip[2] = ip[3] = ip[4] = 0;
 //	mask[0] = mask[1] = mask[2] = mask[3] = 0;
@@ -97,19 +105,44 @@ void mopts(char o)
 	switch (o)
 	{
 	case 'm': // Subnet Mask
+		// process
+		tomask(ip, mask);
+		// print
 		nprint_mask();
 		break;
+	case 'h': // number of hosts available
+		// process
+		hostn = tomask(ip, mask);
+		// print
+		nprint_hostn();
+		break;
 	case 'i': // Network/Broadcast ID
+		// process
+		tomask(ip, mask);
+		toid_n(ip, mask, nid);
+		toid_b(ip, mask, bid);
+		// print
 		nprint_id();
 		break;
 	case 'r': // First/Last IP
+		// process
+		tomask(ip, mask);
+		toid_n(ip, mask, nid);
+		toid_b(ip, mask, bid);
+		toip_first(nid, ipf);
+		toip_last(bid, ipl);
+		// print
 		nprint_range();
-		break;
-	case 'h': // number of hosts available
-		nprint_hostn();
 		break;
 	case 'f': // Full
 	default:
+		// process
+		hostn = tomask(ip, mask);
+		toid_n(ip, mask, nid);
+		toid_b(ip, mask, bid);
+		toip_first(nid, ipf);
+		toip_last(bid, ipl);
+		// print
 		nprint_full();
 		break;
 	}
