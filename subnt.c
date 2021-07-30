@@ -37,7 +37,6 @@ int main(int argc, char **argv)
 			printf("\t      -ah ip\t # return host count\n");
 			printf("\n");
 			printf("# help screen \n");
-			printf("\tsubnt       \t # \n");
 			printf("\tsubnt -h    \t # \n");
 			return 0; // close
 			break;
