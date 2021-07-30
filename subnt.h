@@ -47,10 +47,6 @@ void nprinta(unsigned int ar[4]); // print arrays
 *
 ***************************************************************************/
 
-// to get input
-void nstrinput(char ar[19]); // get input as str until ip length
-char ncharinput(); // get one char from input without ruining everything
-
 // processing of data
 unsigned int tomask(unsigned int ip[5], unsigned int mask[4]); // generate mask from ip CIDR or not, also returns host count
 void toid_b(unsigned int ip[5], unsigned int mask[4], unsigned int bid[4]); // find broadcast ID
@@ -59,6 +55,8 @@ void toip_first(unsigned int nid[4], unsigned int ipf[4]); // calculate first ip
 void toip_last(unsigned int bid[4], unsigned int ipl[4]); // calculate last ip
 
 // waste funcs since they're in the std lib
+void nstrinput(char ar[19]); // get input as str until ip length
+char ncharinput(); // get one char from input without ruining everything
 void nsatoi(char string[], unsigned int iparray[]); // change a ip (string) to an ip (int-array)
 unsigned int natoi(char string[]); // change a char array (string) to int
 unsigned int npower(unsigned int base, unsigned int pow); // calculate power
