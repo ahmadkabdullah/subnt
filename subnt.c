@@ -57,7 +57,6 @@ int main(int argc, char **argv)
 			printf("\t4. Get Number of hosts\n");
 			printf("\t5. Get Full Information\n");
 			printf("\t0. Get Out\n");
-			printf("\n");
 		}
 
 		on = interact(); // go to mode and get return val
@@ -156,11 +155,10 @@ unsigned short int interact()
 		return 0;
 		break;
 	default:
-		printf("Incorrect option!\n\n");
+		printf("Incorrect option!\n");
 		return 2; // continue loop but display menu
 		break;
 	}
-	printf("\n");
 
 	return 1; // continue loop
 }

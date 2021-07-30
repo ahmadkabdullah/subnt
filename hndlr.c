@@ -156,7 +156,6 @@ void nstrinput(char ar[19])
 	}
 
 	ar[i] = '\0'; // close char array
-	printf("\n");
 }
 
 char ncharinput()
