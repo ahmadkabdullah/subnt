@@ -143,7 +143,7 @@ unsigned int tomask(const unsigned int ip[5], unsigned int mask[4])
 void nstrinput(char ar[19])
 {
 	char c;
-	unsigned short int i = 0;
+	unsigned short i = 0;
 
 	while ((c=getchar()) != '\n')
 	{
@@ -152,7 +152,10 @@ void nstrinput(char ar[19])
 			ar[i] = c; // add to array
 			i++;
 		}
-		// else discard char
+		else // else discard char
+		{
+			break;
+		}
 	}
 
 	ar[i] = '\0'; // close char array
@@ -177,12 +180,12 @@ char ncharinput()
 
 void nsatoi(const char s[], unsigned int ia[5])
 {
-	short int i, j, k; i=j=k=0; // index vars
-	short int sel, sela, selb; // selection vars
+	short i, j, k; i=j=k=0; // index vars
+	short sel, sela, selb; // selection vars
 	char scut[5]; // value selected (cut)
 	int cidr = 0; // cidr pos
 
-	short int loopy = 1;
+	short loopy = 1;
 	// get ip
 	while (loopy)
 	{
@@ -274,19 +277,19 @@ unsigned int natoi(const char s[4])
 	{
 		calc = npower(10, (len-i)); // positional value using power
 
-		switch (s[i]) // add each digit according to position value
-		{
-		case '0': ret += 0*calc; break;
-		case '1': ret += 1*calc; break;
-		case '2': ret += 2*calc; break;
-		case '3': ret += 3*calc; break;
-		case '4': ret += 4*calc; break;
-		case '5': ret += 5*calc; break;
-		case '6': ret += 6*calc; break;
-		case '7': ret += 7*calc; break;
-		case '8': ret += 8*calc; break;
-		case '9': ret += 9*calc; break;
+		switch (s[i]) {
+		case '0': ret += 0 * calc; break;
+		case '1': ret += 1 * calc; break;
+		case '2': ret += 2 * calc; break;
+		case '3': ret += 3 * calc; break;
+		case '4': ret += 4 * calc; break;
+		case '5': ret += 5 * calc; break;
+		case '6': ret += 6 * calc; break;
+		case '7': ret += 7 * calc; break;
+		case '8': ret += 8 * calc; break;
+		case '9': ret += 9 * calc; break;
 		}
+		
 		i--; //step back
 	}
 	return ret;
@@ -294,23 +297,18 @@ unsigned int natoi(const char s[4])
 
 unsigned int npower(const unsigned int b, const unsigned int p)
 {
-	short int i = 0;
 	unsigned int ret = 1;
 
-	while (i<p) // for p times
+	for (short i = 0; i < p; i++) // for p times
 	{
 		ret = ret * b; // multiply by itself
-		i++;
 	}
 	return ret;
 }
 
 unsigned int nstrl(const char str[])
 {
-	short int i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
+	short i;
+	for (i = 0; str[i] != '\0'; i++) {}
 	return i;
 }

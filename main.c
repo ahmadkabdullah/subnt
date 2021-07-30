@@ -1,4 +1,5 @@
-// main funcs
+#include <stdio.h>
+#include "subnt.h"
 
 unsigned int ip[5]; // IP Address (length is 5 with CIDR)
 unsigned int mask[4]; // Subnet Mask
@@ -7,11 +8,8 @@ unsigned int ipf[4], ipl[4]; // First and Last IPs
 unsigned int hostn; // number of hosts
 char input[19]; // input storing
 
-#include <stdio.h>
-#include "subnt.h"
-
 const char* str_inte = "\
-Select an option:adapta nokto \n\
+Select an option: \n\
     m. Get Subnet Mask \n\
     i. Get Network and Broadcast ID \n\
     r. Get First and Last IP \n\
@@ -90,7 +88,7 @@ void minteract()
 	while (1) // loop for input and call mopts
 	{
 		// ask for opt
-		printf("\nNU> ");
+		printf("\nOP> ");
 		o = ncharinput(); // take one char opt
 
 		if (o == '0') // if 0 then break out
