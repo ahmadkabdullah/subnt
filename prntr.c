@@ -14,49 +14,49 @@ void nprinta(unsigned int ar[4])
 
 void nprint_mask()
 {
-	printf("\tSubnet Mask: ");
+	printf("Subnet Mask: ");
 	nprinta(mask);
 }
 
 void nprint_id()
 {
-	printf("\tNetwork ID: ");
+	printf("Network ID: ");
 	nprinta(nid);
-	printf("\tBroadcast ID: ");
+	printf("Broadcast ID: ");
 	nprinta(bid);
 }
 
 void nprint_range()
 {
-	printf("\tFirst IP: ");
+	printf("First IP: ");
 	nprinta(ipf);
-	printf("\tLast IP: ");
+	printf("Last IP: ");
 	nprinta(ipl);
 }
 
 void nprint_hostn()
 {
-	printf("\tHosts: ");
+	printf("Hosts: ");
 	printf("%d\n", hostn);
 }
 
 void nprint_full()
 {
-	printf("\tSubnet Mask: ");
+	printf("Subnet Mask: ");
 	nprinta(mask);
 
-	printf("\tHosts: ");
+	printf("Hosts: ");
 	printf("%d\n", hostn);
 
-	printf("\tNetwork ID: ");
+	printf("Network ID: ");
 	nprinta(nid);
 
-	printf("\tBroadcast ID: ");
+	printf("Broadcast ID: ");
 	nprinta(bid);
 
-	printf("\tFirst IP: ");
+	printf("First IP: ");
 	nprinta(ipf);
 
-	printf("\tLast IP: ");
+	printf("Last IP: ");
 	nprinta(ipl);
 }

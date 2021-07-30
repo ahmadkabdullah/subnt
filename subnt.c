@@ -3,6 +3,28 @@
 #include <stdio.h>
 #include "subnt.h"
 
+const char* str_inte = "\
+Select an option: \n\
+    m. Get Subnet Mask \n\
+    i. Get Network and Broadcast ID \n\
+    r. Get First and Last IP \n\
+    h. Get Number of hosts \n\
+    f. Get Full Information \n\
+    0. Get Out\n\
+";
+
+const char* str_help = "\
+subnt -i       # interactive mode \n\
+\n\
+subnt -af ip   # return full info \n\
+      -am ip   # return subnetmask \n\
+      -ai ip   # return network/broadcast id \n\
+      -ar ip   # return first/last ip \n\
+      -ah ip   # return host count \n\
+\n\
+subnt -h       # help screen \n\
+";
+
 int main(int argc, char **argv)
 {
 	// if args then get them
@@ -22,13 +44,7 @@ int main(int argc, char **argv)
 			return 0;
 			break;
 		case 'i':
-			printf("Select an option:\n");
-			printf("\tm. Get Subnet Mask\n");
-			printf("\ti. Get Network and Broadcast ID\n");
-			printf("\tr. Get First and Last IP\n");
-			printf("\th. Get Number of hosts\n");
-			printf("\tf. Get Full Information\n");
-			printf("\t0. Get Out\n");
+			printf(str_inte);
 			minteract(); // call interactive loop
 			return 0;
 			break;
@@ -40,15 +56,7 @@ int main(int argc, char **argv)
 	// else if there are none or opt 'h'
 	else
 	{
-		printf("subnt -i    \t # interactive mode\n");
-		printf("\n");
-		printf("subnt -af ip\t # return full info\n");
-		printf("      -am ip\t # return subnetmask\n");
-		printf("      -ai ip\t # return network/broadcast id\n");
-		printf("      -ar ip\t # return first/last ip\n");
-		printf("      -ah ip\t # return host count\n");
-		printf("\n");
-		printf("subnt -h  \t # help screen\n");
+		printf(str_help);
 		return 0;
 	}
 }
@@ -74,7 +82,7 @@ void minteract()
 	while (1) // loop for input and call mopts
 	{
 		// ask for opt
-		printf("NU> ");
+		printf("\nNU> ");
 		o = ncharinput(); // take one char opt
 
 		if (o == '0') // if 0 then break out
