@@ -1,52 +1,196 @@
 #include <stdio.h>
 #include "subnt.h"
 
-// helper to print array
-void printm(unsigned int ar[]);
-void printm(unsigned int ar[])
+// data
+unsigned int ip[5], mask[4]; // IP and Subnet Mask
+unsigned int nid[4], bid[4]; // broadcast and network IDs
+unsigned int ipf[4], ipl[4]; // first and last IPs
+unsigned int hostn; // number of hosts
+char input[19];
+
+// helper funcs
+void printa(unsigned int ar[4])
 {
-	short int i = 0;
+	unsigned short int i = 0;
 	for (i=0; i<4; i++) { 
-		(i == 3)? printf("%d", ar[i]): printf("%d.", ar[i]);
+		(i == 3)? printf("%d ", ar[i]): printf("%d.", ar[i]);
 	}
 	printf("\n");
 }
 
-// main func
-int main()
+void getipinput(char ar[19])
 {
-	unsigned int ip[5], mask[4];
-	unsigned int nid[4], bid[4];
-	unsigned int ipf[4], ipl[4];
-	char input[] = "192.168.1.2/24";
+	char c;
+	unsigned short int i = 0;
 
-	printf("IP ");
-	printf("%s \n", input);
-	nsatoi(input, ip); // sane input
+	while ((c=getchar()) != '\n')
+	{
+		ar[i] = c;
+		i++;
+		if (i == 18) // if passes char ip length limit, move on
+		{
+			break;
+		}
+	}
 
-	printf("SM ");
-	unsigned int hostc = iptomask(ip, mask);
-	printm(mask);
-	printf("\n");
-
-	printf("N ");
-	toid_n(ip, mask, nid);
-	printm(nid);
-	printf("B ");
-	toid_b(ip, mask, bid);
-	printm(bid);
-	printf("\n");
-
-	printf("F ");
-	toip_first(nid, ipf);
-	printm(ipf);
-	printf("L ");
-	toip_last(bid, ipl);
-	printm(ipl);
+	ar[i] = '\0'; // close char array
 	printf("\n");
 }
 
-// calculate first ip
+// main func
+int main(int argc, char **argv)
+{
+	if (argc == 1) // if no arguments go interactive
+	{
+		unsigned short int on = 1; // loop runner
+		while (on) // main loop
+		{
+			on = interactive();
+		}
+	}
+	else // else with any option accept piped input
+	{
+		printf("Run with no arguments for interactive mode!\n");
+		getipinput(input);
+		nsatoi(input, ip);
+		printf("IP> %s \n\n", input);
+
+		printf(" Subnet Mask: ");
+		hostn = iptomask(ip, mask);
+		printa(mask);
+		printf(" Hosts: ");
+		printf("%d\n", hostn);
+		printf(" Network ID: ");
+		toid_n(ip, mask, nid);
+		printa(nid);
+		printf(" Broadcast ID: ");
+		toid_b(ip, mask, bid);
+		printa(bid);
+		printf(" First IP: ");
+		toip_first(nid, ipf);
+		printa(ipf);
+		printf(" Last IP: ");
+		toip_last(bid, ipl);
+		printa(ipl);
+	}
+}
+
+// other funcs
+unsigned short int interactive()
+{
+	printf("Run with any argument for piping mode!\n");
+	// display menu
+	printf("Select an option:\n");
+	printf(" 1. Get Subnet Mask\n");
+	printf(" 2. Get Network and Broadcast ID\n");
+	printf(" 3. Get First and Last IP\n");
+	printf(" 4. Get Number of hosts\n");
+	printf(" 5. Get Full Information\n");
+	printf(" 0. Quit\n");
+	printf("\n");
+	printf("NU> ");
+	char o=getchar(); // take option
+	getchar(); // get rid of new line
+
+	// process options
+	switch (o)
+	{
+	case '1': // Subnet Mask
+		printf("IP> ");
+		getipinput(input);
+		nsatoi(input, ip);
+		printa(ip);
+
+		printf(" Subnet Mask: ");
+		iptomask(ip, mask);
+		printa(mask);
+		break;
+	case '2': // Network/Broadcast ID
+		printf("IP> ");
+		getipinput(input);
+		nsatoi(input, ip);
+		iptomask(ip, mask);
+
+		printf(" Network ID: ");
+		toid_n(ip, mask, nid);
+		printa(nid);
+
+		printf(" Broadcast ID: ");
+		toid_b(ip, mask, bid);
+		printa(bid);
+		break;
+	case '3': // First/Last IP
+		printf("IP> ");
+		getipinput(input);
+		nsatoi(input, ip);
+		iptomask(ip, mask);
+		toid_n(ip, mask, nid);
+		toid_b(ip, mask, bid);
+
+		printf(" First IP: ");
+		toip_first(nid, ipf);
+		printa(ipf);
+
+		printf(" Last IP: ");
+		toip_last(bid, ipl);
+		printa(ipl);
+		break;
+	case '4': // number of hosts available
+		printf("IP> ");
+		getipinput(input);
+		nsatoi(input, ip);
+
+		printf(" Hosts: ");
+		hostn = iptomask(ip, mask);
+		printf("%d \n", hostn);
+		break;
+	case '5': // Full
+		printf("IP> ");
+		getipinput(input);
+		nsatoi(input, ip);
+
+		printf(" Subnet Mask: ");
+		hostn = iptomask(ip, mask);
+		printa(mask);
+
+		printf(" Hosts: ");
+		printf("%d\n", hostn);
+
+		printf(" Network ID: ");
+		toid_n(ip, mask, nid);
+		printa(nid);
+
+		printf(" Broadcast ID: ");
+		toid_b(ip, mask, bid);
+		printa(bid);
+
+		printf(" First IP: ");
+		toip_first(nid, ipf);
+		printa(ipf);
+
+		printf(" Last IP: ");
+		toip_last(bid, ipl);
+		printa(ipl);
+		break;
+	case '0':
+		return 0;
+		break;
+	default:
+		printf("Error: incorrect option!\n");
+		break;
+	}
+	printf("\n");
+
+	// emtpy arrays
+	mask[0] = mask[1] = mask[2] = mask[3] = 0;
+	nid[0] = nid[1] = nid[2] = nid[3] = 0;
+	bid[0] = bid[1] = bid[2] = bid[3] = 0;
+	ipf[0] = ipf[1] = ipf[2] = ipf[3] = 0;
+	ipl[0] = ipl[1] = ipl[2] = ipl[3] = 0;
+
+	return 1; // continue loop
+}
+
 void toip_first(unsigned int nid[4], unsigned int ipf[4])
 {
 	ipf[0] = nid[0];
@@ -55,7 +199,6 @@ void toip_first(unsigned int nid[4], unsigned int ipf[4])
 	ipf[3] = nid[3]+1;
 }
 
-// calculate last ip
 void toip_last(unsigned int bid[4], unsigned int ipl[4])
 {
 	ipl[0] = bid[0];
@@ -64,7 +207,6 @@ void toip_last(unsigned int bid[4], unsigned int ipl[4])
 	ipl[3] = bid[3]-1;
 }
 
-// find network ID
 void toid_n(unsigned int ip[], unsigned int mask[4], unsigned int nid[4])
 {
 	short int i = 0;
@@ -93,7 +235,6 @@ void toid_n(unsigned int ip[], unsigned int mask[4], unsigned int nid[4])
 	}
 }
 
-// find broadcast ID
 void toid_b(unsigned int ip[], unsigned int mask[4], unsigned int bid[4])
 {
 	short int i = 0;
@@ -122,7 +263,6 @@ void toid_b(unsigned int ip[], unsigned int mask[4], unsigned int bid[4])
 	}
 }
 
-// generate mask from ip CIDR or not, also returns host count
 unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
 {
 	short int cidr = ip[4];
@@ -184,7 +324,6 @@ unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
 	return npower(2, (32-cidr))-2; // number of hosts
 }
 
-// change a ip (string) to an ip (int-array)
 void nsatoi(char s[], unsigned int ia[5])
 {
 	short int i, j, k; i=j=k=0;
@@ -268,7 +407,6 @@ void nsatoi(char s[], unsigned int ia[5])
 	}
 }
 
-// change a char array (string) to int
 unsigned int natoi(char s[4])
 {
 	int i = 0;
@@ -279,7 +417,7 @@ unsigned int natoi(char s[4])
 	{
 		i++;
 	}
-	const int len = i; // length of string now known
+	const int len = i-1; // length of string now known
 
 	while (i > -1) // go through each char backwards
 	{
@@ -303,10 +441,9 @@ unsigned int natoi(char s[4])
 	return ret;
 }
 
-// calculate power
 unsigned int npower(unsigned int b, unsigned int p)
 {
-	short int i = 1;
+	short int i = 0;
 	unsigned int ret = 1;
 
 	while (i<p) // for p times
