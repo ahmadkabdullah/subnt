@@ -104,25 +104,25 @@ unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
 	if (cidr >= 24)
 	{
 		mask[0] = 255; mask[1] = 255; mask[2] = 255;
-		ioct = 3; // in octet 3 according to 0-index
+		ioct = 4; // in octet 3 according to 0-index
 		bitson = cidr-24; // bits on in the octet
 	}
 	else if (cidr >= 16)
 	{
 		mask[0] = 255; mask[1] = 255; mask[3] = 0;
-		ioct = 2;
+		ioct = 3;
 		bitson = cidr-16;
 	}
 	else if (cidr >= 8)
 	{
 		mask[0] = 255; mask[2] = 0; mask[3] = 0;
-		ioct = 1;
+		ioct = 2;
 		bitson = cidr-8;
 	}
 	else if (cidr >= 0)
 	{
 		mask[1] = 0; mask[2] = 0; mask[3] = 0;
-		ioct = 0;
+		ioct = 1;
 		bitson = cidr-0;
 	}
 
@@ -132,7 +132,7 @@ unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
 	for (i=0; i<bitson; i++) // calculate subnet octet
 	{
 		num /= 2; // half value as we go right
-		mask[ioct] += num; // sum value
+		mask[ioct-1] += num; // sum value
 	}
 
 	return npower(2, (32-cidr))-2; // number of hosts
@@ -267,7 +267,7 @@ unsigned int natoi(char s[4])
 	{
 		i++;
 	}
-	const int len = i-1; // length of string now known
+	const int len = i-1; // length of string now known (-1 for \0 in end?)
 
 	while (i > -1) // go through each char backwards
 	{

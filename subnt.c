@@ -46,9 +46,8 @@ int main(int argc, char **argv)
 	unsigned short int on = 2;
 	while (on)
 	{
-		if (on==2)
+		if (on==2) // if returneed 2 display menu
 		{
-			// display menu
 			printf("Select an option:\n");
 			printf("\t1. Get Subnet Mask\n");
 			printf("\t2. Get Network and Broadcast ID\n");
@@ -58,8 +57,19 @@ int main(int argc, char **argv)
 			printf("\t0. Get Out\n");
 			printf("\n");
 		}
+
 		on = interact(); // go to mode and get return val
+
+		// reset arrays
+		ip[0] = ip[1] = ip[2] = ip[3] = ip[4] = 0;
+		mask[0] = mask[1] = mask[2] = mask[3] = 0;
+		ipf[0] = ipf[1] = ipf[2] = ipf[3] = 0;
+		ipl[0] = ipl[1] = ipl[2] = ipl[3] = 0;
+		bid[0] = bid[1] = bid[2] = bid[3] = 0;
+		nid[0] = nid[1] = nid[2] = nid[3] = 0;
+		hostn = 0;
 	}
+
 	return 0; // close
 }
 
@@ -100,7 +110,7 @@ void argument(char c, char *str)
 unsigned short int interact()
 {
 	printf("NU> ");
-	char o=ncharinput(); // take one char opt
+	char o = ncharinput(); // take one char opt
 
 	// process options
 	switch (o)
