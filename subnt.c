@@ -12,7 +12,7 @@ char input[19];
 void printa(unsigned int ar[4])
 {
 	unsigned short int i = 0;
-	for (i=0; i<4; i++) { 
+	for (i=0; i<4; i++) {
 		(i == 3)? printf("%d ", ar[i]): printf("%d.", ar[i]);
 	}
 	printf("\n");
@@ -43,51 +43,57 @@ int main(int argc)
 	if (argc == 1) // if no arguments go interactive
 	{
 		printf("Run with any argument for piping mode!\n\n");
-		unsigned short int on = 1; // loop runner
+
+		unsigned short int on = 2; // loop runner
 		while (on) // main loop
 		{
-			on = interactive();
+			// display menu
+			if (on == 2) // if returned 2 then display menu
+			{
+				printf("Select an option:\n");
+				printf("  1. Get Subnet Mask\n");
+				printf("  2. Get Network and Broadcast ID\n");
+				printf("  3. Get First and Last IP\n");
+				printf("  4. Get Number of hosts\n");
+				printf("  5. Get Full Information\n");
+				printf("  0. Get Out\n");
+				printf("\n");
+			}
+
+			on = interact();
 		}
 	}
 	else // else with any option accept piped input
 	{
 		printf("Run with no arguments for interactive mode!\n");
+
 		getipinput(input);
 		nsatoi(input, ip);
 		printf("IP> %s \n\n", input);
 
-		printf(" Subnet Mask: ");
+		printf("  Subnet Mask: ");
 		hostn = iptomask(ip, mask);
 		printa(mask);
-		printf(" Hosts: ");
+		printf("  Hosts: ");
 		printf("%d\n", hostn);
-		printf(" Network ID: ");
+		printf("  Network ID: ");
 		toid_n(ip, mask, nid);
 		printa(nid);
-		printf(" Broadcast ID: ");
+		printf("  Broadcast ID: ");
 		toid_b(ip, mask, bid);
 		printa(bid);
-		printf(" First IP: ");
+		printf("  First IP: ");
 		toip_first(nid, ipf);
 		printa(ipf);
-		printf(" Last IP: ");
+		printf("  Last IP: ");
 		toip_last(bid, ipl);
 		printa(ipl);
 	}
 }
 
 // other funcs
-unsigned short int interactive()
+unsigned short int interact()
 {
-	// display menu
-	printf("Select an option:\n");
-	printf(" 1. Get Subnet Mask\n");
-	printf(" 2. Get Network and Broadcast ID\n");
-	printf(" 3. Get First and Last IP\n");
-	printf(" 4. Get Number of hosts\n");
-	printf(" 5. Get Full Information\n");
-	printf(" 0. Get Out\n");
-	printf("\n");
 	printf("NU> ");
 	char o=getchar(); // take option
 	getchar(); // get rid of new line
@@ -100,7 +106,7 @@ unsigned short int interactive()
 		getipinput(input);
 		nsatoi(input, ip);
 
-		printf(" Subnet Mask: ");
+		printf("  Subnet Mask: ");
 		iptomask(ip, mask);
 		printa(mask);
 		break;
@@ -110,11 +116,11 @@ unsigned short int interactive()
 		nsatoi(input, ip);
 		iptomask(ip, mask);
 
-		printf(" Network ID: ");
+		printf("  Network ID: ");
 		toid_n(ip, mask, nid);
 		printa(nid);
 
-		printf(" Broadcast ID: ");
+		printf("  Broadcast ID: ");
 		toid_b(ip, mask, bid);
 		printa(bid);
 		break;
@@ -126,11 +132,11 @@ unsigned short int interactive()
 		toid_n(ip, mask, nid);
 		toid_b(ip, mask, bid);
 
-		printf(" First IP: ");
+		printf("  First IP: ");
 		toip_first(nid, ipf);
 		printa(ipf);
 
-		printf(" Last IP: ");
+		printf("  Last IP: ");
 		toip_last(bid, ipl);
 		printa(ipl);
 		break;
@@ -139,7 +145,7 @@ unsigned short int interactive()
 		getipinput(input);
 		nsatoi(input, ip);
 
-		printf(" Hosts: ");
+		printf("  Hosts: ");
 		hostn = iptomask(ip, mask);
 		printf("%d \n", hostn);
 		break;
@@ -148,26 +154,26 @@ unsigned short int interactive()
 		getipinput(input);
 		nsatoi(input, ip);
 
-		printf(" Subnet Mask: ");
+		printf("  Subnet Mask: ");
 		hostn = iptomask(ip, mask);
 		printa(mask);
 
-		printf(" Hosts: ");
+		printf("  Hosts: ");
 		printf("%d\n", hostn);
 
-		printf(" Network ID: ");
+		printf("  Network ID: ");
 		toid_n(ip, mask, nid);
 		printa(nid);
 
-		printf(" Broadcast ID: ");
+		printf("  Broadcast ID: ");
 		toid_b(ip, mask, bid);
 		printa(bid);
 
-		printf(" First IP: ");
+		printf("  First IP: ");
 		toip_first(nid, ipf);
 		printa(ipf);
 
-		printf(" Last IP: ");
+		printf("  Last IP: ");
 		toip_last(bid, ipl);
 		printa(ipl);
 		break;
@@ -175,7 +181,8 @@ unsigned short int interactive()
 		return 0;
 		break;
 	default:
-		printf("Error: incorrect option!\n");
+		printf("Error: incorrect option!\n\n");
+		return 2; // continue loop but display menu
 		break;
 	}
 	printf("\n");
@@ -268,7 +275,7 @@ unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
 	short int ioct = 0;
 	short int bitson = 0;
 
-	// if there is no CIDR
+	// if there is no CIDR set one
 	if (cidr == 0)
 	{
 		if (ip[0] >= 191 && ip[0] <= 223) // if class C
@@ -289,7 +296,7 @@ unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
 		}
 	}
 
-	// set other octets
+	// set other octets according to cidr
 	if (cidr >= 24)
 	{
 		mask[0] = 255; mask[1] = 255; mask[2] = 255;
@@ -329,7 +336,7 @@ unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
 
 void nsatoi(char s[], unsigned int ia[5])
 {
-	short int i, j, k; i=j=k=0;
+	short int i, j, k; i=j=k=0; // index vars
 	short int sel, sela, selb; // selection vars
 	char scut[5]; // value selected (cut)
 	int cidr = 0; // cidr pos
@@ -352,7 +359,7 @@ void nsatoi(char s[], unsigned int ia[5])
 			selb = i; // set point b
 			sel = 0; // stop selection
 
-			while (sela < selb)
+			while (sela < selb) // from start to end of selection
 			{
 				scut[j] = s[sela]; // cut char in selection
 				j++; // next element

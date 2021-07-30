@@ -29,4 +29,4 @@ void printa(unsigned int ar[4]);
 void getipinput(char ar[19]);
 
 // run a loop and take input from user
-unsigned short int interactive();
+unsigned short int interact();
