@@ -1,3 +1,5 @@
+// printer funcs
+
 #include <stdio.h>
 #include "subnt.h"
 
