@@ -9,12 +9,12 @@
 *
 *****************************************************************/
 
-unsigned int ip[5]; // IP Address (length is 5 with CIDR)
-unsigned int mask[4]; // Subnet Mask
-unsigned int nid[4], bid[4]; // Broadcast and Network IDs
-unsigned int ipf[4], ipl[4]; // First and Last IPs
-unsigned int hostn; // number of hosts
-char input[19]; // input storing
+extern unsigned int ip[5]; // IP Address (length is 5 with CIDR)
+extern unsigned int mask[4]; // Subnet Mask
+extern unsigned int nid[4], bid[4]; // Broadcast and Network IDs
+extern unsigned int ipf[4], ipl[4]; // First and Last IPs
+extern unsigned int hostn; // number of hosts
+extern char input[19]; // input storing
 
 /*************************************************************************************
 *
