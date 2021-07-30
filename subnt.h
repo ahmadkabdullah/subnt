@@ -17,11 +17,13 @@ char input[19]; // input storing
 /*************************************************************************************
 *
 *	central functions that manipulate all the others
+*	providing an interface for the user
 *
 **************************************************************************************/
 
-unsigned short int interact(); // run a loop and take input from user continuously
-void argument(char c, char *str); // take an argument and give result
+void minteract(); // run a loop and take input from user continuously
+void margument(char c, char *str); // take an argument and give result
+void mopts(char o); // handle options passed by two funcs
 
 /*************************************************************************
 *
