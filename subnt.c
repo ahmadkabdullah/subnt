@@ -38,10 +38,11 @@ void getipinput(char ar[19])
 }
 
 // main func
-int main(int argc, char **argv)
+int main(int argc)
 {
 	if (argc == 1) // if no arguments go interactive
 	{
+		printf("Run with any argument for piping mode!\n\n");
 		unsigned short int on = 1; // loop runner
 		while (on) // main loop
 		{
@@ -78,7 +79,6 @@ int main(int argc, char **argv)
 // other funcs
 unsigned short int interactive()
 {
-	printf("Run with any argument for piping mode!\n");
 	// display menu
 	printf("Select an option:\n");
 	printf(" 1. Get Subnet Mask\n");
@@ -86,7 +86,7 @@ unsigned short int interactive()
 	printf(" 3. Get First and Last IP\n");
 	printf(" 4. Get Number of hosts\n");
 	printf(" 5. Get Full Information\n");
-	printf(" 0. Quit\n");
+	printf(" 0. Get Out\n");
 	printf("\n");
 	printf("NU> ");
 	char o=getchar(); // take option
@@ -99,7 +99,6 @@ unsigned short int interactive()
 		printf("IP> ");
 		getipinput(input);
 		nsatoi(input, ip);
-		printa(ip);
 
 		printf(" Subnet Mask: ");
 		iptomask(ip, mask);
@@ -272,17 +271,21 @@ unsigned int iptomask(unsigned int ip[5], unsigned int mask[4])
 	// if there is no CIDR
 	if (cidr == 0)
 	{
-		if (ip[1] <= 127) // if class A
+		if (ip[0] >= 191 && ip[0] <= 223) // if class C
 		{
-			cidr=8;
+			cidr=24;
 		}
-		else if (ip[1] <= 191) // if class B
+		else if (ip[0] >= 128 && ip[0] <= 191) // if class B
 		{
 			cidr=16;
 		}
-		else if (ip[1] <= 224) // if class C
+		else if (ip[0] >= 1 && ip[0] <= 126) // if class A
 		{
-			cidr=24;
+			cidr=8;
+		}
+		else // else class D, E
+		{
+			cidr=32;
 		}
 	}
 
